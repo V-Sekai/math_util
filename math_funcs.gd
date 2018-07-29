@@ -70,7 +70,7 @@ static func smooth_damp_scaler(current, target, current_velocity, smooth_time, m
 	
 	return {"interpolation":scaler_d, "velocity":current_velocity}
 		
-static func smooth_damp_vector2(current, target, current_velocity, smooth_time, max_speed, delta):
+static func smooth_damp_vector(current, target, current_velocity, smooth_time, max_speed, delta):
 	smooth_time = max(0.0001, smooth_time)
 	var value_a = 2.0 / smooth_time
 	var value_b = value_a * delta
@@ -80,44 +80,16 @@ static func smooth_damp_vector2(current, target, current_velocity, smooth_time, 
 	var vector_b = target
 	var max_length = max_speed * smooth_time
 	
-	var vector_square_mag = vector_a.x * vector_a.x + vector_a.y * vector_a.y
-	
-	if (vector_square_mag > max_length * max_length):
+	if (vector_a.length_squared() > max_length * max_length):
 		vector_a =  vector_a.normalized() * max_length
 	
 	target = current - vector_a
-	var vector_c = (current_velocity + Vector2(value_a, value_a) * vector_a) * delta
-	current_velocity = (current_velocity - Vector2(value_a, value_a) * vector_c) * value_c
+	var vector_c = (current_velocity + (vector_a * value_a)) * delta
+	current_velocity = (current_velocity - (vector_c * value_a)) * value_c
 	var vector_d = target + (vector_a + vector_c) * value_c
 	
-	if (Vector2(vector_b - current).dot(vector_d - vector_d) > 0.0):
-		vector_d = vector_b;
-		current_velocity = (vector_d - vector_b) / delta
-		
-	return {"interpolation":vector_d, "velocity":current_velocity}
-		
-static func smooth_damp_vector3(current, target, current_velocity, smooth_time, max_speed, delta):
-	smooth_time = max(0.0001, smooth_time)
-	var value_a = 2.0 / smooth_time
-	var value_b = value_a * delta
-	var value_c = 1.0 / (1.0 + value_b + 0.48 * value_b * value_b + 0.235 * value_b * value_b * value_b)
-	
-	var vector_a = current - target
-	var vector_b = target
-	var max_length = max_speed * smooth_time
-	
-	var vector_square_mag = vector_a.x * vector_a.x + vector_a.y * vector_a.y + vector_a.z * vector_a.z
-	
-	if (vector_square_mag > max_length * max_length):
-		vector_a =  vector_a.normalized() * max_length
-	
-	target = current - vector_a
-	var vector_c = (current_velocity + Vector3(value_a, value_a, value_a) * vector_a) * delta
-	current_velocity = (current_velocity - Vector3(value_a, value_a, value_a) * vector_c) * value_c
-	var vector_d = target + (vector_a + vector_c) * value_c
-	
-	if (Vector3(vector_b - current).dot(vector_d - vector_d) > 0.0):
-		vector_d = vector_b;
+	if ((vector_b - current).dot(vector_d - vector_d) > 0.0):
+		vector_d = vector_b
 		current_velocity = (vector_d - vector_b) / delta
 		
 	return {"interpolation":vector_d, "velocity":current_velocity}
