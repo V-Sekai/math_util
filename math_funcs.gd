@@ -194,3 +194,22 @@ static func base_log(a : float, new_base : float) -> float:
 	
 static func transform_directon_vector(p_direction : Vector3, p_basis : Basis) -> Vector3:
 	return Vector3(((p_basis.x.x * p_direction.x) + (p_basis.y.x * p_direction.y) + (p_basis.z.x * p_direction.z)), ((p_basis.x.y * p_direction.x) + (p_basis.y.y * p_direction.y) + (p_basis.z.y * p_direction.z)),((p_basis.x.z * p_direction.x) + (p_basis.y.z * p_direction.y) + (p_basis.z.z * p_direction.z)))
+
+static func get_interpolated_transform(p_current_transfrom : Transform, p_target_transform : Transform, p_origin_interpolation_factor : float, p_rotation_interpolation_factor : float, p_delta : float):
+	var current_origin : Vector3 = p_current_transfrom.origin
+	var current_rotation : Basis = p_current_transfrom.basis
+	
+	var target_origin : Vector3 = p_target_transform.origin
+	var target_rotation : Basis = p_target_transform.basis
+	
+	if p_origin_interpolation_factor > 0.0:
+		current_origin = current_origin.linear_interpolate(target_origin, p_origin_interpolation_factor * p_delta)
+	else:
+		current_origin = target_origin
+		
+	if p_rotation_interpolation_factor > 0.0:
+		current_rotation = current_rotation.slerp(target_rotation, p_rotation_interpolation_factor * p_delta)
+	else:
+		current_rotation = target_rotation
+	
+	return Transform(current_rotation, current_origin)
