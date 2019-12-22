@@ -213,3 +213,15 @@ static func get_interpolated_transform(p_current_transfrom : Transform, p_target
 		current_rotation = target_rotation
 	
 	return Transform(current_rotation, current_origin)
+
+static func vec2rad2deg(p_vector2 : Vector2) -> Vector2:
+	return Vector2(rad2deg(p_vector2.x), rad2deg(p_vector2.y))
+
+static func vec2deg2rad(p_vector2 : Vector2) -> Vector2:
+	return Vector2(deg2rad(p_vector2.x), deg2rad(p_vector2.y))
+
+static func vec3rad2deg(p_vector3 : Vector3) -> Vector3:
+	return Vector3(rad2deg(p_vector3.x), rad2deg(p_vector3.y), rad2deg(p_vector3.z))
+
+static func vec3deg2rad(p_vector3 : Vector3) -> Vector3:
+	return Vector3(deg2rad(p_vector3.x), deg2rad(p_vector3.y), deg2rad(p_vector3.z))
