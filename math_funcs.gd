@@ -226,6 +226,13 @@ static func vec3rad2deg(p_vector3 : Vector3) -> Vector3:
 static func vec3deg2rad(p_vector3 : Vector3) -> Vector3:
 	return Vector3(deg2rad(p_vector3.x), deg2rad(p_vector3.y), deg2rad(p_vector3.z))
 
+static func sanitise_float(p_float : float) -> float:
+	var return_float : float = p_float
+	if is_nan(return_float) or is_inf(return_float):
+		return_float = 0.0
+		
+	return return_float
+
 static func sanitise_vec2(p_vec2 : Vector2) -> Vector2:
 	var return_vec2 : Vector2 = p_vec2
 	if is_nan(return_vec2.x) or is_inf(return_vec2.x):
