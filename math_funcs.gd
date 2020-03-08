@@ -225,3 +225,36 @@ static func vec3rad2deg(p_vector3 : Vector3) -> Vector3:
 
 static func vec3deg2rad(p_vector3 : Vector3) -> Vector3:
 	return Vector3(deg2rad(p_vector3.x), deg2rad(p_vector3.y), deg2rad(p_vector3.z))
+
+static func sanitise_vec2(p_vec2 : Vector2) -> Vector2:
+	var return_vec2 : Vector2 = p_vec2
+	if is_nan(return_vec2.x) or is_inf(return_vec2.x):
+		return_vec2.x = 0.0
+	if is_nan(return_vec2.y) or is_inf(return_vec2.y):
+		return_vec2.y = 0.0
+		
+	return return_vec2
+
+static func sanitise_vec3(p_vec3 : Vector3) -> Vector3:
+	var return_vec3 : Vector3 = p_vec3
+	if is_nan(return_vec3.x) or is_inf(return_vec3.x):
+		return_vec3.x = 0.0
+	if is_nan(return_vec3.y) or is_inf(return_vec3.y):
+		return_vec3.y = 0.0
+	if is_nan(return_vec3.z) or is_inf(return_vec3.z):
+		return_vec3.z = 0.0
+		
+	return return_vec3
+	
+static func sanitise_quat(p_quat : Quat) -> Quat:
+	var return_quat : Quat = p_quat.normalized()
+	if is_nan(return_quat.x) or is_inf(return_quat.x):
+		return_quat.x = 0.0
+	if is_nan(return_quat.y) or is_inf(return_quat.y):
+		return_quat.y = 0.0
+	if is_nan(return_quat.z) or is_inf(return_quat.z):
+		return_quat.z = 0.0
+	if is_nan(return_quat.w) or is_inf(return_quat.w):
+		return_quat.w = 1.0
+		
+	return return_quat
