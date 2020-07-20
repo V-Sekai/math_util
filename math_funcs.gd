@@ -107,13 +107,13 @@ static func get_2d_position_from_3d_position_with_screen_limits(camera : Camera,
 	var screen_bounds_min : Vector2 = screen_center - screen_mins
 	var screen_bounds_max : Vector2 = screen_center - (screen_size - screen_max)
 	
-	if(is_behind == false and
+	if !is_behind and
 		(screen_pos.x > (screen_mins.x) and screen_pos.x < (screen_max.x)) and
-		(screen_pos.y > (screen_mins.y) and screen_pos.y < (screen_max.y))):
+		(screen_pos.y > (screen_mins.y) and screen_pos.y < (screen_max.y)):
 		pass
 	else:
 		var rotation : int = 270
-		if(is_behind == true):
+		if is_behind:
 			rotation = 90
 		else:
 			rotation = 270
