@@ -1,12 +1,12 @@
+@tool
 extends EditorPlugin
-tool
 
 
-func _init() -> void:
+func _init():
 	print("Initialising MathUtil plugin")
 
 
-func _notification(p_notification: int):
+func _notification(p_notification: int) -> void:
 	match p_notification:
 		NOTIFICATION_PREDELETE:
 			print("Destroying MathUtil plugin")

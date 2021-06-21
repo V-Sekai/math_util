@@ -1,5 +1,5 @@
+@tool
 extends Node
-tool
 
 # Collection of smoothing methods to be used with lerp
 
@@ -94,13 +94,13 @@ static func smooth_damp_vector(current : Vector3, target : Vector3, current_velo
 		
 	return {"interpolation":vector_d, "velocity":current_velocity}
 	
-static func camera_get_position_distance(p_camera : Camera, p_pos : Vector3) -> float:
+static func camera_get_position_distance(p_camera : Camera3D, p_pos : Vector3) -> float:
 	var t : Transform = p_camera.get_global_transform();
 	var axis : Vector3 =  -Vector3(t.basis.z.x, t.basis.z.y, t.basis.z.z)
 	var eyedir : Vector3 = axis.normalized()
 	return eyedir.dot(p_pos) - (eyedir.dot(t.origin))
 	
-static func get_2d_position_from_3d_position_with_screen_limits(camera : Camera, position_3d : Vector3, screen_size : Vector2, screen_center : Vector2, screen_mins : Vector2, screen_max : Vector2) -> Vector2:
+static func get_2d_position_from_3d_position_with_screen_limits(camera : Camera3D, position_3d : Vector3, screen_size : Vector2, screen_center : Vector2, screen_mins : Vector2, screen_max : Vector2) -> Vector2:
 	var is_behind : bool = camera_get_position_distance(camera, position_3d) < 0
 	var screen_pos : Vector2 = camera.unproject_position(position_3d)
 	
@@ -143,7 +143,7 @@ static func get_2d_position_from_3d_position_with_screen_limits(camera : Camera,
 	
 	return screen_pos
 	
-static func get_2d_position_from_3d_position(camera : Camera, position_3d : Vector3) -> Vector2:
+static func get_2d_position_from_3d_position(camera : Camera3D, position_3d : Vector3) -> Vector2:
 	return camera.unproject_position(position_3d)
 	
 static func clamp_angle(val : float, ang_min : float, ang_max : float) -> float:
@@ -203,7 +203,7 @@ static func get_interpolated_transform(p_current_transfrom : Transform, p_target
 	var target_rotation : Basis = p_target_transform.basis
 	
 	if p_origin_interpolation_factor > 0.0:
-		current_origin = current_origin.linear_interpolate(target_origin, p_origin_interpolation_factor * p_delta)
+		current_origin = current_origin.lerp(target_origin, p_origin_interpolation_factor * p_delta)
 	else:
 		current_origin = target_origin
 		
