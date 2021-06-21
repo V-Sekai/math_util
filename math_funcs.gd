@@ -17,7 +17,7 @@ static func spherical_to_local_position(p_theta : float, p_phi : float) -> Vecto
 	
 	return res
 
-static func quat_from_radians(p_radians : Vector3) -> Quat:
+static func quat_from_radians(p_radians : Vector3) -> Quaternion:
 	var pitch_radians : float = p_radians.x * 0.5
 	var yaw_radians : float = p_radians.y * 0.5
 	var roll_radians : float = p_radians.z * 0.5
@@ -31,7 +31,7 @@ static func quat_from_radians(p_radians : Vector3) -> Quat:
 	var sin_roll : float = sin(roll_radians)
 	var cos_roll : float = cos(roll_radians)
 
-	return Quat(sin_yaw * cos_pitch * sin_roll + cos_yaw * sin_pitch * cos_roll, sin_yaw * cos_pitch * cos_roll - cos_yaw * sin_pitch * sin_roll, cos_yaw * cos_pitch * sin_roll - sin_yaw * sin_pitch * cos_roll, cos_yaw * cos_pitch * cos_roll + sin_yaw * sin_pitch * sin_roll)
+	return Quaternion(sin_yaw * cos_pitch * sin_roll + cos_yaw * sin_pitch * cos_roll, sin_yaw * cos_pitch * cos_roll - cos_yaw * sin_pitch * sin_roll, cos_yaw * cos_pitch * sin_roll - sin_yaw * sin_pitch * cos_roll, cos_yaw * cos_pitch * cos_roll + sin_yaw * sin_pitch * sin_roll)
 
 static func ease_in(t : float) -> float:
 	return sin(t * PI * 0.5);
@@ -95,7 +95,7 @@ static func smooth_damp_vector(current : Vector3, target : Vector3, current_velo
 	return {"interpolation":vector_d, "velocity":current_velocity}
 	
 static func camera_get_position_distance(p_camera : Camera3D, p_pos : Vector3) -> float:
-	var t : Transform = p_camera.get_global_transform();
+	var t : Transform3D = p_camera.get_global_transform();
 	var axis : Vector3 =  -Vector3(t.basis.z.x, t.basis.z.y, t.basis.z.z)
 	var eyedir : Vector3 = axis.normalized()
 	return eyedir.dot(p_pos) - (eyedir.dot(t.origin))
@@ -178,8 +178,8 @@ static func adjust_facing(p_facing : Vector3, p_target : Vector3, p_step : float
 	
 	return ((n * cos(ang)) + (t * sin(ang))) * p_facing.length()
 	
-static func rotate_around(p_transform : Transform, p_point : Vector3, p_axis : Vector3, p_angle : float) -> Transform:
-	var vector : Vector3 = p_point + (Quat(p_axis, p_angle) * (p_transform.origin - p_point))
+static func rotate_around(p_transform : Transform3D, p_point : Vector3, p_axis : Vector3, p_angle : float) -> Transform3D:
+	var vector : Vector3 = p_point + (Quaternion(p_axis, p_angle) * (p_transform.origin - p_point))
 	p_transform.origin = vector
 	
 	return p_transform.rotated(p_axis, p_angle * 0.0174532924)
@@ -195,7 +195,7 @@ static func base_log(a : float, new_base : float) -> float:
 static func transform_directon_vector(p_direction : Vector3, p_basis : Basis) -> Vector3:
 	return Vector3(((p_basis.x.x * p_direction.x) + (p_basis.y.x * p_direction.y) + (p_basis.z.x * p_direction.z)), ((p_basis.x.y * p_direction.x) + (p_basis.y.y * p_direction.y) + (p_basis.z.y * p_direction.z)),((p_basis.x.z * p_direction.x) + (p_basis.y.z * p_direction.y) + (p_basis.z.z * p_direction.z)))
 
-static func get_interpolated_transform(p_current_transfrom : Transform, p_target_transform : Transform, p_origin_interpolation_factor : float, p_rotation_interpolation_factor : float, p_delta : float):
+static func get_interpolated_transform(p_current_transfrom : Transform3D, p_target_transform : Transform3D, p_origin_interpolation_factor : float, p_rotation_interpolation_factor : float, p_delta : float):
 	var current_origin : Vector3 = p_current_transfrom.origin
 	var current_rotation : Basis = p_current_transfrom.basis
 	
@@ -212,7 +212,7 @@ static func get_interpolated_transform(p_current_transfrom : Transform, p_target
 	else:
 		current_rotation = target_rotation
 	
-	return Transform(current_rotation, current_origin)
+	return Transform3D(current_rotation, current_origin)
 
 static func vec2rad2deg(p_vector2 : Vector2) -> Vector2:
 	return Vector2(rad2deg(p_vector2.x), rad2deg(p_vector2.y))
@@ -253,8 +253,8 @@ static func sanitise_vec3(p_vec3 : Vector3) -> Vector3:
 		
 	return return_vec3
 	
-static func sanitise_quat(p_quat : Quat) -> Quat:
-	var return_quat : Quat = p_quat.normalized()
+static func sanitise_quat(p_quat : Quaternion) -> Quaternion:
+	var return_quat : Quaternion = p_quat.normalized()
 	if is_nan(return_quat.x) or is_inf(return_quat.x):
 		return_quat.x = 0.0
 	if is_nan(return_quat.y) or is_inf(return_quat.y):
