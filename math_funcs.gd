@@ -265,3 +265,37 @@ static func sanitise_quat(p_quat : Quaternion) -> Quaternion:
 		return_quat.w = 1.0
 		
 	return return_quat
+	
+static func shortest_angle_distance(p_from: float, p_to: float) -> float:
+	var difference: float = fmod(p_to - p_from, PI * 2.0)
+	return fmod(2.0 * difference, PI * 2.0) - difference
+
+static func minimum_velocity(p_velocity: Vector3, p_min: float) -> Vector3:
+	if abs(p_velocity.x) <= p_min:
+		p_velocity.x = 0.0
+		
+	if abs(p_velocity.y) <= p_min:
+		p_velocity.y = 0.0
+		
+	if abs(p_velocity.z) <= p_min:
+		p_velocity.z = 0.0
+		
+	return p_velocity
+
+static func degrade_velocity(p_velocity: Vector3, p_degrade: float, p_min: float) -> Vector3:
+	if abs(p_velocity.x) + p_min > p_degrade:
+		p_velocity.x -= p_degrade * sign(p_velocity.x)
+	else:
+		p_velocity.x = 0.0
+		
+	if abs(p_velocity.y) + p_min > p_degrade:
+		p_velocity.y -= p_degrade * sign(p_velocity.y)
+	else:
+		p_velocity.y = 0.0
+		
+	if abs(p_velocity.z) + p_min > p_degrade:
+		p_velocity.z -= p_degrade * sign(p_velocity.z)
+	else:
+		p_velocity.z = 0.0
+		
+	return p_velocity
