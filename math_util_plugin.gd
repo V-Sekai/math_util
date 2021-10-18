@@ -1,5 +1,5 @@
+@tool
 extends EditorPlugin
-tool
 
 
 func _init() -> void:
