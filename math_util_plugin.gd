@@ -12,8 +12,8 @@ func _notification(p_notification: int) -> void:
 			print("Destroying MathUtil plugin")
 
 
-func get_name() -> String: 
-	return "MathUtil"
+func get_name() -> StringName: 
+	return &"MathUtil"
 
 
 func _enter_tree() -> void:
