@@ -183,12 +183,8 @@ static func rotate_around(p_transform : Transform3D, p_point : Vector3, p_axis :
 	p_transform.origin = vector
 	
 	return p_transform.rotated(p_axis, p_angle * 0.0174532924)
-	
-static func inverse_lerp(p_from : float, p_to : float, p_weight : float) -> float:
-	if (p_from != p_to):
-		return clamp((p_weight - p_from) / (p_to - p_from), 0.0, 1.0)
-	return 0.0
-	
+
+
 static func base_log(a : float, new_base : float) -> float:
 	return log(a) / log(new_base)
 	
