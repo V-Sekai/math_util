@@ -210,17 +210,17 @@ static func get_interpolated_transform(p_current_transform : Transform3D, p_targ
 	
 	return Transform3D(current_rotation, current_origin)
 
-static func vec2rad2deg(p_vector2 : Vector2) -> Vector2:
-	return Vector2(rad2deg(p_vector2.x), rad2deg(p_vector2.y))
+static func vec2rad_to_deg(p_vector2 : Vector2) -> Vector2:
+	return Vector2(rad_to_deg(p_vector2.x), rad_to_deg(p_vector2.y))
 
 static func vec2deg2rad(p_vector2 : Vector2) -> Vector2:
-	return Vector2(deg2rad(p_vector2.x), deg2rad(p_vector2.y))
+	return Vector2(deg_to_rad(p_vector2.x), deg_to_rad(p_vector2.y))
 
-static func vec3rad2deg(p_vector3 : Vector3) -> Vector3:
-	return Vector3(rad2deg(p_vector3.x), rad2deg(p_vector3.y), rad2deg(p_vector3.z))
+static func vec3rad_to_deg(p_vector3 : Vector3) -> Vector3:
+	return Vector3(rad_to_deg(p_vector3.x), rad_to_deg(p_vector3.y), rad_to_deg(p_vector3.z))
 
 static func vec3deg2rad(p_vector3 : Vector3) -> Vector3:
-	return Vector3(deg2rad(p_vector3.x), deg2rad(p_vector3.y), deg2rad(p_vector3.z))
+	return Vector3(deg_to_rad(p_vector3.x), deg_to_rad(p_vector3.y), deg_to_rad(p_vector3.z))
 
 static func sanitise_float(p_float : float) -> float:
 	var return_float : float = p_float
