@@ -199,12 +199,15 @@ static func get_interpolated_transform(p_current_transform : Transform3D, p_targ
 	var target_rotation : Basis = p_target_transform.basis
 	
 	if p_origin_interpolation_factor > 0.0:
-		current_origin = current_origin.lerp(target_origin, p_origin_interpolation_factor * p_delta)
+		current_origin = current_origin.cubic_interpolate_in_time(target_origin, current_origin, target_origin, p_origin_interpolation_factor * p_delta,
+			p_delta, 0.0, p_delta)
 	else:
 		current_origin = target_origin
 		
 	if p_rotation_interpolation_factor > 0.0:
-		current_rotation = current_rotation.slerp(target_rotation, p_rotation_interpolation_factor * p_delta)
+		current_rotation = current_rotation.get_rotation_quaternion().spherical_cubic_interpolate_in_time(
+			target_rotation.get_rotation_quaternion(), current_rotation.get_rotation_quaternion(), target_rotation.get_rotation_quaternion(),
+			p_rotation_interpolation_factor * p_delta, p_delta, 0, p_delta)
 	else:
 		current_rotation = target_rotation
 	
