@@ -12,7 +12,7 @@ func _notification(p_notification: int) -> void:
 			print("Destroying MathUtil plugin")
 
 
-func get_name() -> StringName: 
+func get_name() -> StringName:
 	return &"MathUtil"
 
 
